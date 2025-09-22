@@ -99,3 +99,38 @@ try:
 except git.InvalidGitRepositoryError:
     print("Failed to initialize analyzer.")
 ```
+
+
+<!-- DOC_START: code_monitor/analyzer.py::RepoAnalyzer -->
+This function analyzes a Git repository to identify code changes at the "object" level, such as functions, classes, or methods. It operates by comparing the Abstract Syntax Trees (ASTs) of files between different commits. This provides a more granular view of changes than a standard file-level diff, making it ideal for targeted code reviews, impact analysis, or automated changelog generation.
+
+The analysis process involves:
+1.  Initializing a Git repository object from the provided path.
+2.  Iterating through the commits specified in the `commit_range`.
+3.  For each commit, identifying modified Python files.
+4.  For each modified file, fetching the content of the file before and after the change.
+5.  Parsing both versions into code object trees using a language-specific parser.
+6.  Comparing the trees to pinpoint added, removed, or modified objects.
+7.  Aggregating these granular changes into a structured list for the entire commit range.
+
+### Parameters
+
+| Name           | Type | Description                                                                                                                              |
+| :------------- | :--- | :--------------------------------------------------------------------------------------------------------------------------------------- |
+| `repo_path`    | `str`  | The absolute or relative file system path to the local Git repository to be analyzed.                                                    |
+| `commit_range` | `str`  | A string defining the range of commits to inspect, in a format accepted by `git rev-list` (e.g., `'HEAD~1..HEAD'`, `'main..develop'`). |
+
+### Returns
+
+| Type                  | Description                                                                                                                                                           |
+| :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `List[Dict[str, any]]` | A list of dictionaries, where each dictionary represents a single detected change to a code object. An empty list is returned if no changes are found. Each dictionary contains the following keys:<br><br>**`file_path`** (`str`): The relative path to the modified file within the repository.<br>**`object_name`** (`str`): The fully qualified name of the changed object (e.g., `my_module.MyClass.my_method`).<br>**`change_type`** (`str`): The type of change. Can be `'added'`, `'modified'`, or `'deleted'`.<br>**`commit_hash`** (`str`): The full SHA of the commit where the change occurred. |
+
+### Raises
+
+| Type                          | Description                                                                 |
+| :---------------------------- | :-------------------------------------------------------------------------- |
+| `git.exc.InvalidGitRepositoryError` | Raised if the provided `repo_path` does not point to a valid Git repository. |
+| `ValueError`                  | Raised if the `commit_range` is invalid or cannot be resolved by Git.       |
+<!-- DOC_END: code_monitor/analyzer.py::RepoAnalyzer -->
+
