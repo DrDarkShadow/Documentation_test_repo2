@@ -105,3 +105,14 @@ actions:
   run_command: "echo 'New commit found!'"
 <!-- DOC_END: code_monitor/config.py::MonitorConfig -->
 
+
+
+<!-- DOC_ID: code_monitor/config.py----sub_num -->
+<!-- DOC_START: code_monitor/config.py::sub_num -->
+python
+result = sub_num(10, 3)
+print(result)
+# Expected output: 7
+<!-- DOC_END: code_monitor/config.py::sub_num -->
+<!-- END_DOC_ID: code_monitor/config.py----sub_num -->
+
