@@ -134,3 +134,65 @@ The analysis process involves:
 | `ValueError`                  | Raised if the `commit_range` is invalid or cannot be resolved by Git.       |
 <!-- DOC_END: code_monitor/analyzer.py::RepoAnalyzer -->
 
+
+
+
+<!-- DOC_START: code_monitor/analyzer.py::RepoAnalyzer -->
+json
+{
+  "added": [
+    {
+      "file_path": "src/utils.py",
+      "object_name": "new_helper_function",
+      "object_type": "function"
+    }
+  ],
+  "removed": [
+    {
+      "file_path": "src/core.py",
+      "object_name": "OldApiClient",
+      "object_type": "class"
+    }
+  ],
+  "modified": [
+    {
+      "file_path": "src/core.py",
+      "object_name": "process_data",
+      "object_type": "function"
+    }
+  ]
+}
+```
+
+### Usage Example
+
+```python
+from code_monitor.analyzer import RepoAnalyzer
+
+# Initialize the analyzer with the path to your repository
+analyzer = RepoAnalyzer(repo_path='/path/to/your/project')
+
+# Specify the commit range you want to analyze
+old_commit = 'a1b2c3d4e5f67890'
+new_commit = 'f0e9d8c7b6a54321'
+
+# Perform the analysis to get a structured report of changes
+changes = analyzer.analyze_commits(old_commit, new_commit)
+
+# Print the results
+print("--- Code Object Changes ---")
+print(f"Analysis between {old_commit[:7]} and {new_commit[:7]}\n")
+
+print(f"Added objects: {len(changes['added'])}")
+for item in changes['added']:
+    print(f"  - [{item['object_type']}] {item['object_name']} in {item['file_path']}")
+
+print(f"\nRemoved objects: {len(changes['removed'])}")
+for item in changes['removed']:
+    print(f"  - [{item['object_type']}] {item['object_name']} in {item['file_path']}")
+
+print(f"\nModified objects: {len(changes['modified'])}")
+for item in changes['modified']:
+    print(f"  - [{item['object_type']}] {item['object_name']} in {item['file_path']}")
+<!-- DOC_END: code_monitor/analyzer.py::RepoAnalyzer -->
+
