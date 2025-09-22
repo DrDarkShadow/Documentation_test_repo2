@@ -116,3 +116,12 @@ print(result)
 <!-- DOC_END: code_monitor/config.py::sub_num -->
 <!-- END_DOC_ID: code_monitor/config.py----sub_num -->
 
+
+
+<!-- DOC_ID: code_monitor/config.py----sub_num -->
+python
+result = sub_num(10, 3)
+print(result)
+# Expected output: 7
+<!-- END_DOC_ID: code_monitor/config.py----sub_num -->
+
