@@ -87,3 +87,21 @@ def is_valid_extension(filepath):
     # Access file_extensions directly from the global config
     return any(filepath.endswith(ext) for ext in CONFIG.file_extensions)
 ```
+
+
+<!-- DOC_START: code_monitor/config.py::MonitorConfig -->
+yaml
+github:
+  token: "your_github_personal_access_token"
+  owner: "github_username_or_org"
+  repo: "repository_name"
+
+monitor:
+  check_interval: 60
+  commit_check_depth: 5
+  target_branch: "main"
+
+actions:
+  run_command: "echo 'New commit found!'"
+<!-- DOC_END: code_monitor/config.py::MonitorConfig -->
+
